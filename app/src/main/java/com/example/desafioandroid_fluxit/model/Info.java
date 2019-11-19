@@ -7,9 +7,9 @@ public class Info {
     @SerializedName("seed")
     private String seed;
     @SerializedName("results")
-    private Integer results;
+    private String results;
     @SerializedName("page")
-    private Integer page;
+    private String page;
     @SerializedName("version")
     private String version;
 
@@ -24,19 +24,19 @@ public class Info {
         this.seed = seed;
     }
 
-    public Integer getResults() {
+    public String getResults() {
         return results;
     }
 
-    public void setResults(Integer results) {
+    public void setResults(String results) {
         this.results = results;
     }
 
-    public Integer getPage() {
+    public String getPage() {
         return page;
     }
 
-    public void setPage(Integer page) {
+    public void setPage(String page) {
         this.page = page;
     }
 

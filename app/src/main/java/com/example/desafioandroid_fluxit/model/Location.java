@@ -13,7 +13,7 @@ public class Location {
     @SerializedName("country")
     private String country;
     @SerializedName("postcode")
-    private Integer postcode;
+    private String postcode;
     @SerializedName("coordinates")
     private Coordinates coordinates;
 
@@ -52,11 +52,11 @@ public class Location {
         this.country = country;
     }
 
-    public Integer getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(Integer postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 

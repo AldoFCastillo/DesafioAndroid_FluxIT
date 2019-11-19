@@ -7,19 +7,22 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.example.desafioandroid_fluxit.R;
+import com.example.desafioandroid_fluxit.model.Person;
 import com.example.desafioandroid_fluxit.view.fragment.HomeFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.notifier{
 
     private HomeFragment homeFragment;
     private FragmentManager fragmentManager;
     @BindView(R.id.fragmentContainerMainActivity)
-    ConstraintLayout fragmentContainerMainActivity;
+    CoordinatorLayout fragmentContainerMainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
         homeFragment = new HomeFragment();
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction unaTransaccion = fragmentManager.beginTransaction();
@@ -35,5 +39,11 @@ public class MainActivity extends AppCompatActivity {
         unaTransaccion.commit();
 
 
+    }
+
+    @Override
+    public void sendNotification(Person person) {
+        String completeName = person.getName().getFirst();
+        Snackbar.make(fragmentContainerMainActivity, "Seleccionaste " + completeName, Snackbar.LENGTH_SHORT).show();
     }
 }

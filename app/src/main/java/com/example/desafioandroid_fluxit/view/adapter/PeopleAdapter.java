@@ -21,9 +21,11 @@ import butterknife.ButterKnife;
 public class PeopleAdapter extends RecyclerView.Adapter {
 
     private List<Person> personList;
+    private PeopleAdapterListener peopleAdapterListener;
 
-    public PeopleAdapter(List<Person> personList) {
+    public PeopleAdapter(List<Person> personList, PeopleAdapterListener peopleAdapterListener) {
         this.personList = personList;
+        this.peopleAdapterListener = peopleAdapterListener;
     }
 
     @NonNull
@@ -59,6 +61,14 @@ public class PeopleAdapter extends RecyclerView.Adapter {
 
             ButterKnife.bind(this, itemView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Person person = personList.get(getAdapterPosition());
+                    peopleAdapterListener.choice(person);
+                }
+            });
+
         }
         public void bind(Person person){
             Glide.with(itemView).load(person.getPicture().getThumbnail()).into(imageViewPersonItem);
@@ -66,5 +76,9 @@ public class PeopleAdapter extends RecyclerView.Adapter {
             textViewNombrePersonItem.setText(nameAndLast);
 
         }
+    }
+
+    public interface PeopleAdapterListener {
+        public void choice(Person person);
     }
 }
