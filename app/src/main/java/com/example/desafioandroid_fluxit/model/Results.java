@@ -11,4 +11,22 @@ public class Results {
     @SerializedName("info")
     private Info info;
 
+    public Results() {
+    }
+
+    public List<Person> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Person> results) {
+        this.results = results;
+    }
+
+    public Info getInfo() {
+        return info;
+    }
+
+    public void setInfo(Info info) {
+        this.info = info;
+    }
 }
