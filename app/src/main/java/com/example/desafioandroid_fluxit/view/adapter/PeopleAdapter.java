@@ -53,8 +53,8 @@ public class PeopleAdapter extends RecyclerView.Adapter {
 
         @BindView(R.id.imageViewPersonItem)
         ImageView imageViewPersonItem;
-        @BindView(R.id.textViewNombrePersonItem)
-        TextView textViewNombrePersonItem;
+        @BindView(R.id.textViewNickPersonItem)
+        TextView textViewNickPersonItem;
 
         public PersonViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,8 +72,7 @@ public class PeopleAdapter extends RecyclerView.Adapter {
         }
         public void bind(Person person){
             Glide.with(itemView).load(person.getPicture().getThumbnail()).into(imageViewPersonItem);
-            String nameAndLast = person.getName().getFirst() + " " + person.getName().getLast();
-            textViewNombrePersonItem.setText(nameAndLast);
+            textViewNickPersonItem.setText(person.getLogin().getUsername());
 
         }
     }

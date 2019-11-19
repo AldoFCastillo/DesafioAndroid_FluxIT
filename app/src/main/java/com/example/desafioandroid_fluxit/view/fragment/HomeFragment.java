@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  */
 public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapterListener {
 
-    //@BindView(R.id.recyclerViewHomeFragment)
+    @BindView(R.id.recyclerViewHomeFragment)
     RecyclerView recyclerViewHomeFragment;
 
     private notifier aNotifier;
@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        //ButterKnife.bind(this, view);
-        recyclerViewHomeFragment= view.findViewById(R.id.recyclerViewHomeFragment);
+        ButterKnife.bind(this, view);
+        //recyclerViewHomeFragment= view.findViewById(R.id.recyclerViewHomeFragment);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerViewHomeFragment.setLayoutManager(layoutManager);
 

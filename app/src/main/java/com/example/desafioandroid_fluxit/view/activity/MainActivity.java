@@ -1,16 +1,16 @@
 package com.example.desafioandroid_fluxit.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 
 import com.example.desafioandroid_fluxit.R;
 import com.example.desafioandroid_fluxit.model.Person;
+import com.example.desafioandroid_fluxit.view.fragment.MapFragment;
 import com.example.desafioandroid_fluxit.view.fragment.HomeFragment;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.noti
 
     @Override
     public void sendNotification(Person person) {
-        String completeName = person.getName().getFirst();
-        Snackbar.make(fragmentContainerMainActivity, "Seleccionaste " + completeName, Snackbar.LENGTH_SHORT).show();
+
+        //Snackbar.make(fragmentContainerMainActivity, "Seleccionaste " + name, Snackbar.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, DetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DetailsActivity.KEY_PERSON, person);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

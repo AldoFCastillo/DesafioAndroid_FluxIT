@@ -2,7 +2,9 @@ package com.example.desafioandroid_fluxit.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Id {
+import java.io.Serializable;
+
+public class Id implements Serializable {
 
     @SerializedName("name")
     private String name;

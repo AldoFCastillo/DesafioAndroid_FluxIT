@@ -2,9 +2,10 @@ package com.example.desafioandroid_fluxit.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Results {
+public class Results implements Serializable {
 
     @SerializedName("results")
     private List<Person> results = null;

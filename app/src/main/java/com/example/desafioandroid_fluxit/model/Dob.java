@@ -2,7 +2,9 @@ package com.example.desafioandroid_fluxit.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Dob {
+import java.io.Serializable;
+
+public class Dob implements Serializable {
 
     @SerializedName("date")
     private String date;

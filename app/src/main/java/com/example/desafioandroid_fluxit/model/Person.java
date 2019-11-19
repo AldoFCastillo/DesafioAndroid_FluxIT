@@ -2,7 +2,9 @@ package com.example.desafioandroid_fluxit.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable{
 
     @SerializedName("gender")
     private String gender;
@@ -12,6 +14,8 @@ public class Person {
     private Location location;
     @SerializedName("email")
     private String email;
+    @SerializedName("login")
+    private Login login;
     @SerializedName("dob")
     private Dob dob;
     @SerializedName("phone")
@@ -24,6 +28,7 @@ public class Person {
     private Picture picture;
     @SerializedName("nat")
     private String nat;
+
 
     public Person() {
     }
@@ -58,6 +63,14 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
     }
 
     public Dob getDob() {
@@ -108,3 +121,5 @@ public class Person {
         this.nat = nat;
     }
 }
+
+
