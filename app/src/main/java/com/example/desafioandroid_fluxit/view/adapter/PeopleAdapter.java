@@ -78,6 +78,6 @@ public class PeopleAdapter extends RecyclerView.Adapter {
     }
 
     public interface PeopleAdapterListener {
-        public void choice(Person person);
+         void choice(Person person);
     }
 }

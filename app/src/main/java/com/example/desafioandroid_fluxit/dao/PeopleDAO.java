@@ -12,14 +12,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PeopleDAO {
 
-    public static final String BASE_URL = "https://randomuser.me/api/";
+    public static final String BASE_URL = "https://randomuser.me/";
     private Retrofit retrofit;
     private PeopleService peopleService;
-    private showError showError;
+    private ShowError showError;
     private Integer items = 20;
 
 
-    public void setShowError(PeopleDAO.showError showError) {
+    public void setShowError(ShowError showError) {
         this.showError = showError;
     }
 
@@ -32,7 +32,7 @@ public class PeopleDAO {
 
     public void getPeopleList(final ResultListener<Results> listener) {
 
-        Call<Results> resultsCall = peopleService.getResults();
+        Call<Results> resultsCall = peopleService.getResults(items);
 
         resultsCall.enqueue(new Callback<Results>() {
             @Override
@@ -41,7 +41,7 @@ public class PeopleDAO {
                     Results results = response.body();
 
                     listener.onFinish(results);
-                } //else                    showError.error("Ocurrio un Error");
+                } else  showError.error("Ocurrio un Error");
             }
 
             @Override
@@ -56,7 +56,7 @@ public class PeopleDAO {
     }
 
 
-    public interface showError {
+    public interface ShowError {
         void error(String error);
     }
 }

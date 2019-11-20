@@ -55,35 +55,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.noti
     @Override
     public void sendNotification(Person person) {
 
-        //Snackbar.make(fragmentContainerMainActivity, "Seleccionaste " + name, Snackbar.LENGTH_SHORT).show();
-
         Intent intent = new Intent(this, DetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(DetailsActivity.KEY_PERSON, person);
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-
-
-
-
 
     @Override
     protected void onNewIntent(Intent intent) {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapterListener, PeopleDAO.showError {
+public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapterListener, PeopleDAO.ShowError {
 
     @BindView(R.id.recyclerViewHomeFragment)
     RecyclerView recyclerViewHomeFragment;
@@ -56,11 +57,10 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
     private notifier aNotifier;
 
     private List<Person> personList = new ArrayList<>();
-
     private ArrayAdapter<String> arrayAdapter;
     private Map<String, Person> nickMap = new HashMap<>();
     private List<String> nickList = new ArrayList<>();
-    private  List<String> arrayItems = new ArrayList<>();
+    private List<String> arrayItems = new ArrayList<>();
 
 
     public HomeFragment() {
@@ -79,21 +79,24 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+
         showProgressView();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerViewHomeFragment.setLayoutManager(layoutManager);
 
-        PeopleController peopleController = new PeopleController();
+        PeopleController peopleController = new PeopleController(this);
+
         callAPI(peopleController);
         refresh(peopleController);
 
 
-        arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1, nickList);
+        arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, nickList);
         listView.setAdapter(arrayAdapter);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
 
@@ -101,11 +104,10 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
             public boolean onQueryTextChange(String newText) {
                 arrayAdapter.getFilter().filter(newText);
                 listView.setVisibility(View.VISIBLE);
-                if (newText.equals(""))listView.setVisibility(View.GONE);
+                if (newText.equals("")) listView.setVisibility(View.GONE);
                 return false;
             }
         });
-
 
 
         return view;
@@ -120,9 +122,10 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
                 PeopleAdapter peopleAdapter = new PeopleAdapter(personList, HomeFragment.this);
                 recyclerViewHomeFragment.setAdapter(peopleAdapter);
                 swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(), "Exito", Toast.LENGTH_SHORT).show();
                 recyclerViewHomeFragment.setHasFixedSize(true);
                 recyclerViewHomeFragment.setItemViewCacheSize(20);
-                for (Person person: personList) {
+                for (Person person : personList) {
                     String nick = person.getLogin().getUsername();
                     nickMap.put(nick, person);
                     nickList.add(nick);

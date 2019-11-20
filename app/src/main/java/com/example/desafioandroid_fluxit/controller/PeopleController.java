@@ -8,8 +8,9 @@ public class PeopleController {
 
     private PeopleDAO peopleDAO;
 
-    public PeopleController() {
+    public PeopleController(PeopleDAO.ShowError showError) {
         this.peopleDAO = new PeopleDAO();
+        peopleDAO.setShowError(showError);
     }
 
     public void getPeopleList(final ResultListener<Results> listener){
