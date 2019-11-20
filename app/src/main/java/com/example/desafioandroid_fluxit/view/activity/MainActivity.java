@@ -6,21 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.SearchView;
 
 import com.example.desafioandroid_fluxit.R;
-import com.example.desafioandroid_fluxit.controller.PeopleController;
 import com.example.desafioandroid_fluxit.model.Person;
 import com.example.desafioandroid_fluxit.model.Results;
-import com.example.desafioandroid_fluxit.utils.ResultListener;
-import com.example.desafioandroid_fluxit.view.fragment.MapFragment;
 import com.example.desafioandroid_fluxit.view.fragment.HomeFragment;
-import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

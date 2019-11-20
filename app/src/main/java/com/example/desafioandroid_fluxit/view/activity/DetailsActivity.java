@@ -1,25 +1,23 @@
 package com.example.desafioandroid_fluxit.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.desafioandroid_fluxit.R;
 import com.example.desafioandroid_fluxit.model.Person;
-import com.example.desafioandroid_fluxit.view.fragment.MapFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailsActivity extends AppCompatActivity {
-
-    private MapFragment mapFragment;
 
     public static final String KEY_PERSON = "person";
 
@@ -34,7 +32,8 @@ public class DetailsActivity extends AppCompatActivity {
     TextView textViewAgeDetailsActivity;
     @BindView(R.id.textViewMailDetailsActivity)
     TextView textViewMailDetailsActivity;
-
+    @BindView(R.id.buttonMap)
+    FloatingActionButton buttonMap;
 
 
     @Override
@@ -56,11 +55,21 @@ public class DetailsActivity extends AppCompatActivity {
         textViewAgeDetailsActivity.setText(anios);
         textViewMailDetailsActivity.setText(person.getEmail());
 
+        buttonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(DetailsActivity.this, MapActivity.class);
+                    Bundle mapBundle = new Bundle();
+                    Double latitude = person.getLocation().getCoordinates().getLatitude();
+                    Double longitude = person.getLocation().getCoordinates().getLongitude();
+                    mapBundle.putDouble(MapActivity.LATITUDE, latitude );
+                    mapBundle.putDouble(MapActivity.LONGITUDE, longitude);
+                    intent.putExtras(mapBundle);
+                    startActivity(intent);
+            }
 
-        /*mapFragment.setArguments(bundle);
-        FragmentManager miFragmentManager = getSupportFragmentManager();
-        FragmentTransaction unaTransaccion = miFragmentManager.beginTransaction();
-        unaTransaccion.replace(R.id.detailsActivity, mapFragment);
-        unaTransaccion.commit();*/
+        });
+
+
     }
 }
