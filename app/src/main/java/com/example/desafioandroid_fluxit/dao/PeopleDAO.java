@@ -15,7 +15,13 @@ public class PeopleDAO {
     public static final String BASE_URL = "https://randomuser.me/api/";
     private Retrofit retrofit;
     private PeopleService peopleService;
+    private showError showError;
+    private Integer items = 20;
 
+
+    public void setShowError(PeopleDAO.showError showError) {
+        this.showError = showError;
+    }
 
     public PeopleDAO() {
 
@@ -24,16 +30,18 @@ public class PeopleDAO {
 
     }
 
-    public void getPeopleList(final ResultListener<Results> listener){
+    public void getPeopleList(final ResultListener<Results> listener) {
 
         Call<Results> resultsCall = peopleService.getResults();
 
         resultsCall.enqueue(new Callback<Results>() {
             @Override
             public void onResponse(Call<Results> call, Response<Results> response) {
-                Results results = response.body();
+                if (response.isSuccessful()) {
+                    Results results = response.body();
 
-                listener.onFinish(results);
+                    listener.onFinish(results);
+                } //else                    showError.error("Ocurrio un Error");
             }
 
             @Override
@@ -45,5 +53,10 @@ public class PeopleDAO {
 
             }
         });
+    }
+
+
+    public interface showError {
+        void error(String error);
     }
 }

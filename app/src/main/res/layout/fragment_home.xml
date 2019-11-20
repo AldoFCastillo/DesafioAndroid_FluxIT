@@ -6,14 +6,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.HomeFragment">
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar"
+        android:iconifiedByDefault="false"
+        android:id="@+id/searchView"
+        app:layout_constraintVertical_bias="0.01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -21,6 +38,20 @@
         android:id="@+id/recyclerViewHomeFragment"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/listView"
+        android:layout_marginTop="50dp"
+        android:background="#FAFAFA"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/swipeRefreshLayout"/>
+
+</FrameLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -30,8 +61,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@+id/swipeRefreshLayout" />
+        android:visibility="invisible"></ProgressBar>
+        <!--app:layout_constraintTop_toTopOf="@+id/swipeRefreshLayout"--> />
 
 
 

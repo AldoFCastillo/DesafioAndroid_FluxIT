@@ -10,4 +10,6 @@ public interface PeopleService {
     @GET("?results=20")
     Call<Results> getResults();
 
+
+
 }

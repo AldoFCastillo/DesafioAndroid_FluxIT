@@ -2,6 +2,7 @@ package com.example.desafioandroid_fluxit.view.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,17 +13,26 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.desafioandroid_fluxit.R;
 import com.example.desafioandroid_fluxit.controller.PeopleController;
+import com.example.desafioandroid_fluxit.dao.PeopleDAO;
 import com.example.desafioandroid_fluxit.model.Person;
 import com.example.desafioandroid_fluxit.model.Results;
 import com.example.desafioandroid_fluxit.utils.ResultListener;
+import com.example.desafioandroid_fluxit.view.activity.DetailsActivity;
 import com.example.desafioandroid_fluxit.view.adapter.PeopleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +40,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapterListener {
+public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapterListener, PeopleDAO.showError {
 
     @BindView(R.id.recyclerViewHomeFragment)
     RecyclerView recyclerViewHomeFragment;
@@ -38,10 +48,19 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
     ProgressBar progressBar;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.searchView)
+    SearchView searchView;
+    @BindView(R.id.listView)
+    ListView listView;
 
     private notifier aNotifier;
 
     private List<Person> personList = new ArrayList<>();
+
+    private ArrayAdapter<String> arrayAdapter;
+    private Map<String, Person> nickMap = new HashMap<>();
+    private List<String> nickList = new ArrayList<>();
+    private  List<String> arrayItems = new ArrayList<>();
 
 
     public HomeFragment() {
@@ -69,6 +88,26 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
         refresh(peopleController);
 
 
+        arrayAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1, nickList);
+        listView.setAdapter(arrayAdapter);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                arrayAdapter.getFilter().filter(newText);
+                listView.setVisibility(View.VISIBLE);
+                if (newText.equals(""))listView.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+
+
         return view;
     }
 
@@ -83,28 +122,55 @@ public class HomeFragment extends Fragment implements PeopleAdapter.PeopleAdapte
                 swipeRefreshLayout.setRefreshing(false);
                 recyclerViewHomeFragment.setHasFixedSize(true);
                 recyclerViewHomeFragment.setItemViewCacheSize(20);
+                for (Person person: personList) {
+                    String nick = person.getLogin().getUsername();
+                    nickMap.put(nick, person);
+                    nickList.add(nick);
+                }
+                itemClick();
+
             }
         });
     }
 
-    public void refresh(PeopleController peopleController){
+    private void itemClick() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String listItem = (String) parent.getAdapter().getItem(position);
+                Person aPerson = nickMap.get(listItem);
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                bundle.putSerializable(DetailsActivity.KEY_PERSON, aPerson);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void refresh(PeopleController peopleController) {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             personList.clear();
             callAPI(peopleController);
         });
     }
 
-    void showProgressView () {
+    void showProgressView() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    void hideProgressView () {
+    void hideProgressView() {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void choice(Person person) {
         aNotifier.sendNotification(person);
+    }
+
+    @Override
+    public void error(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     public interface notifier {

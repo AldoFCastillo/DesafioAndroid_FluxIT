@@ -5,11 +5,19 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 
 import com.example.desafioandroid_fluxit.R;
+import com.example.desafioandroid_fluxit.controller.PeopleController;
 import com.example.desafioandroid_fluxit.model.Person;
+import com.example.desafioandroid_fluxit.model.Results;
+import com.example.desafioandroid_fluxit.utils.ResultListener;
 import com.example.desafioandroid_fluxit.view.fragment.MapFragment;
 import com.example.desafioandroid_fluxit.view.fragment.HomeFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.noti
     private FragmentManager fragmentManager;
     @BindView(R.id.fragmentContainerMainActivity)
     CoordinatorLayout fragmentContainerMainActivity;
+    private Results results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.noti
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        handleIntent(getIntent());
 
 
         homeFragment = new HomeFragment();
@@ -51,5 +62,39 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.noti
         bundle.putSerializable(DetailsActivity.KEY_PERSON, person);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
+
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+        }
     }
 }
